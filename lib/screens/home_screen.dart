@@ -15,60 +15,58 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _appBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 25),
-              SizedBox(
-                height: 60,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return _profile();
-                  },
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 25),
+            SizedBox(
+              height: 60,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return _profile();
+                },
               ),
-              const SizedBox(height: 25),
-              const Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  'Services',
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                      color: Colors.black45),
-                ),
+            ),
+            const SizedBox(height: 25),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                'Services',
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    color: Colors.black45),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: getMenuItems().length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 15.0,
-                    mainAxisSpacing: 15.0,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return _menu(
-                      context,
-                      index,
-                      getMenuItems()[index].title,
-                      getMenuItems()[index].imagePath,
-                      getMenuItems()[index].categoryNumber,
-                    );
-                  },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: getMenuItems().length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.8,
+                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 15.0,
                 ),
+                itemBuilder: (BuildContext context, int index) {
+                  return _menu(
+                    context,
+                    index,
+                    getMenuItems()[index].title,
+                    getMenuItems()[index].imagePath,
+                    getMenuItems()[index].categoryNumber,
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 25),
+          ],
         ),
       ),
     );
@@ -101,40 +99,54 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Container _menu(BuildContext context, int index, String title, String imagePath,
-    String categoryNumber) {
+Container _menu(BuildContext context, int index, String title, String imagePath, String categoryNumber) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      image: DecorationImage(
-        image: AssetImage(imagePath),
-        fit: BoxFit.cover,
-      ),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black,
+          blurRadius: 0.3,
+          offset: Offset(0, 0),
+        ),
+      ],
     ),
-    child: Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Poppins',
-            shadows: [
-              Shadow(
-                color: Colors.black,
-                blurRadius: 4,
-                offset: Offset(2, 2),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Poppins',
+                shadows: [
+                  Shadow(
+                    color: Colors.black,
+                    blurRadius: 4,
+                    offset: Offset(1, 1),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     ),
   );
 }
+
 
 AppBar _appBar() {
   return AppBar(

@@ -14,11 +14,11 @@ List<Menu> getMenuItems() {
   return [
     const Menu(
         title: 'About IMAN',
-        imagePath: 'assets/images/about.JPG',
+        imagePath: 'assets/images/iman.jpg',
         categoryNumber: '1'),
     const Menu(
         title: 'Members',
-        imagePath: 'assets/images/members.jpg',
+        imagePath: 'assets/images/members.JPG',
         categoryNumber: '2'),
     const Menu(
         title: 'Clinic',
