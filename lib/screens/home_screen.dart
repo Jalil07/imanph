@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:imanph/screens/create_article.dart';
+import 'package:imanph/screens/profile_screen.dart';
 
 import '../data/menu.dart';
 
@@ -10,50 +12,56 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, String>> data = [
+    {
+      'title': 'Vision',
+      'content': 'A community of Muslim physicians who are competent, compassionate, socially responsive, imbued with Islamic teachings and values, united in the promotion of health and well-being, and highly dedicated to the service of fellow men.',
+    },
+    {
+      'title': 'Mission',
+      'content': 'To establish a network of Muslim physicians and form linkages with other groups and associations in both medical and non-medical professions; working towards a healthy and progressive Ummah through education, service, and empowerment for the greater glory of Allah (SWT).',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _appBar(),
+      appBar: _appBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 25),
-            SizedBox(
-              height: 60,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return _profile();
-                },
-              ),
-            ),
-            const SizedBox(height: 25),
+            // const SizedBox(height: 25),
+            // SizedBox(
+            //   height: 60,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 10,
+            //     itemBuilder: (context, index) {
+            //       return _profile();
+            //     },
+            //   ),
+            // ),
+            // const SizedBox(height: 25),
             const Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
                 'Services',
                 style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    color: Colors.black45),
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  color: Colors.black45,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: GridView.builder(
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
                 itemCount: getMenuItems().length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.8,
-                  crossAxisSpacing: 15.0,
-                  mainAxisSpacing: 15.0,
-                ),
                 itemBuilder: (BuildContext context, int index) {
                   return _menu(
                     context,
@@ -66,11 +74,83 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 25),
+             Padding(
+              padding: const EdgeInsets.fromLTRB(15, 15, 5, 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Articles',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      color: Colors.black45,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CreateArticleScreen()),
+                        );
+                      },
+                      icon: const Icon(Icons.add_box_outlined, color: Colors.black45, size: 30,),),
+                ],
+              ),
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data[index]['title']!,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          data[index]['content']!,
+                          style: const TextStyle(fontSize: 16, fontFamily: 'Poppins',),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                );
+              },
+            ),
+            const SizedBox(height: 25),
           ],
         ),
       ),
     );
   }
+
+
 
   CircleAvatar _profile() {
     return CircleAvatar(
@@ -101,8 +181,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Container _menu(BuildContext context, int index, String title, String imagePath, String categoryNumber) {
   return Container(
+    height: 150,
+    width: 150,
+    margin: const EdgeInsets.all(8),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(15),
       boxShadow: const [
         BoxShadow(
           color: Colors.black,
@@ -112,7 +195,7 @@ Container _menu(BuildContext context, int index, String title, String imagePath,
       ],
     ),
     child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(15),
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -148,37 +231,47 @@ Container _menu(BuildContext context, int index, String title, String imagePath,
 }
 
 
-AppBar _appBar() {
+AppBar _appBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
     title: const Row(
       children: [
         Text(
-          'Iman',
+          'IMAN',
           style: TextStyle(
             color: Colors.lightGreen,
             fontSize: 25,
             fontWeight: FontWeight.bold,
             fontFamily: 'Poppins',
+            letterSpacing: 2.5,
           ),
         ),
         Text(
-          'Ph',
+          'PHIL',
           style: TextStyle(
               color: Colors.black,
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins'),
+              fontFamily: 'Poppins',
+            letterSpacing: 2.5,),
         )
       ],
     ),
-    actions: const [
+    actions: [
       Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Icon(
-          Icons.menu,
-          color: Colors.black,
+        padding: const EdgeInsets.all(15.0),
+        child: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+          },
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
         ),
       ),
     ],
