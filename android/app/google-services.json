@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "845586353041",
+    "project_id": "iman-phil-eaf54",
+    "storage_bucket": "iman-phil-eaf54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845586353041:android:9b71028876cf0f7ba56830",
+        "android_client_info": {
+          "package_name": "com.imanphil.jsd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845586353041-4n43o80i66b74gmcn3g3bk2nk787vage.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.imanphil.jsd",
+            "certificate_hash": "a16a9ec8732c09b29b6e881f0c46132efcd3fd68"
+          }
+        },
+        {
+          "client_id": "845586353041-0cdnv14om2bs6tnr3qke1jjnjjsqcj3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8A-Jkv-qz60kv0fxVg0o1sG7PH0ZQdJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845586353041-0cdnv14om2bs6tnr3qke1jjnjjsqcj3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

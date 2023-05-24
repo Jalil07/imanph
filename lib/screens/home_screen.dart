@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imanph/screens/create_article.dart';
 import 'package:imanph/screens/profile_screen.dart';
+import 'package:imanph/screens/signup_screen.dart';
 
 import '../data/menu.dart';
 
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 25),
              Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 5, 15),
+              padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const Spacer(),
                   IconButton(
+                    splashRadius: 25,
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -149,8 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 
   CircleAvatar _profile() {
     return CircleAvatar(
@@ -236,6 +236,7 @@ AppBar _appBar(BuildContext context) {
     backgroundColor: Colors.white,
     elevation: 0,
     title: const Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'IMAN',
@@ -259,19 +260,17 @@ AppBar _appBar(BuildContext context) {
       ],
     ),
     actions: [
-      Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()),
-            );
-          },
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
+      IconButton(
+        splashRadius: 25,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUpScreen()),
+          );
+        },
+        icon: const Icon(
+          Icons.menu,
+          color: Colors.black,
         ),
       ),
     ],

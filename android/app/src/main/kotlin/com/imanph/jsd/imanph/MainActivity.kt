@@ -1,4 +1,4 @@
-package com.imanph.jsd.imanph
+package com.imanphil.jsd
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -20,41 +20,8 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.lightGreen,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Create',
-              style: TextStyle(
-                color: Colors.lightGreen,
-                fontSize: 20,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              ' Article',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: Colors.white,
+      appBar: _appBar(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -115,6 +82,44 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      leading: IconButton(
+        splashRadius: 25,
+        icon: const Icon(Icons.arrow_back),
+        color: Colors.lightGreen,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Create',
+            style: TextStyle(
+              color: Colors.lightGreen,
+              fontSize: 20,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            ' Article',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
