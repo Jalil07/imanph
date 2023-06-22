@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imanph/screens/create_article.dart';
 import 'package:imanph/screens/profile_screen.dart';
+import 'package:imanph/screens/rxpad.dart';
 import 'package:imanph/screens/signup_screen.dart';
 
 import '../data/menu.dart';
@@ -28,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _appBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,38 +110,38 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   padding: const EdgeInsets.all(15),
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 2,
-                          offset: const Offset(0, 0),
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data[index]['title']!,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          data[index]['title']!,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          data[index]['content']!,
-                          style: const TextStyle(fontSize: 16, fontFamily: 'Poppins',),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        data[index]['content']!,
+                        style: const TextStyle(fontSize: 16, fontFamily: 'Poppins',),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 );
               },
             ),
@@ -196,31 +196,53 @@ Container _menu(BuildContext context, int index, String title, String imagePath,
     ),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(15),
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-            fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          switch (index) {
+            case 0:
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RxPad()));
+              break;
+            case 1:
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RxPad()));
+              break;
+            case 2:
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RxPad()));
+              break;
+            case 3:
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RxPad()));
+              break;
+            case 4:
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RxPad()));
+              break;
+          // Add more cases for other indices/pages
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(imagePath),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Poppins',
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 4,
-                    offset: Offset(1, 1),
-                  ),
-                ],
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Poppins',
+                  shadows: [
+                    Shadow(
+                      color: Colors.black,
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -231,48 +253,3 @@ Container _menu(BuildContext context, int index, String title, String imagePath,
 }
 
 
-AppBar _appBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    title: const Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'IMAN',
-          style: TextStyle(
-            color: Colors.lightGreen,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-            letterSpacing: 2.5,
-          ),
-        ),
-        Text(
-          'PHIL',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            letterSpacing: 2.5,),
-        )
-      ],
-    ),
-    actions: [
-      IconButton(
-        splashRadius: 25,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignUpScreen()),
-          );
-        },
-        icon: const Icon(
-          Icons.menu,
-          color: Colors.black,
-        ),
-      ),
-    ],
-  );
-}

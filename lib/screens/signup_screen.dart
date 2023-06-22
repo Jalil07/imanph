@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +13,61 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController familyNameController = TextEditingController();
   bool _obscureText = true;
-  bool _confirmObscureText = true;
+  String email = '';
+  String password = '';
+  String name = '';
+  String surname = '';
+
+  void _signup(BuildContext context) {
+    // Show circular progress indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    // Use the email and password variables for signup/authentication with Firebase
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((userCredential) async {
+      // Signup successful
+      User? user = userCredential.user;
+      // Handle the signed up user
+      // Perform additional actions with the signed-up user here
+      // For example, save user data to Firestore database
+      await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
+        'email': email,
+        'name': name,
+        'surname': surname,
+      });
+      // Navigate to LoginScreen after signup
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }).catchError((error) {
+      // Signup failed
+      // Hide the progress indicator
+      Navigator.pop(context);
+
+      // Show snackbar with the error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Signup failed: $error'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+
+      // Handle the error
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,32 +89,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 32.0),
-              _textBox('Email', Icons.email, emailController, onChange: (value) {
+              _textBox('Username', Icons.person, nameController, onChange: (value) {
                 // Handle email changes
+                setState(() {
+                  name = value; // Update the email variable
+                });
               }),
               const SizedBox(height: 16.0),
-              _textBox('Password', Icons.lock, passwordController, onChange: (value) {
+              _textBox('Email', Icons.email, emailController,
+                  onChange: (value) {
                 // Handle email changes
+                setState(() {
+                  email = value; // Update the email variable
+                });
               }),
               const SizedBox(height: 16.0),
-              _textBox('Confirm Password', Icons.lock, confirmPasswordController, onChange: (value) {
+              _textBoxPassword('Password', Icons.lock, passwordController,
+                  onChange: (value) {
                 // Handle email changes
+                setState(() {
+                  password = value; // Update the email variable
+                });
               }),
               const SizedBox(height: 16.0),
-              _textBox('Name', Icons.person, nameController, onChange: (value) {
+              _textBoxPassword(
+                  'Confirm Password', Icons.lock, confirmPasswordController,
+                  onChange: (value) {
                 // Handle email changes
-              }),
-              const SizedBox(height: 16.0),
-              _textBox('Family Name', Icons.person, familyNameController, onChange: (value) {
-                // Handle email changes
+
               }),
               const SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () {
-                  // Perform login logic here
+                onPressed: () async {
+                  // Perform SignUp logic here
+                  _signup(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Colors.lightGreen, // Text color
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.lightGreen, // Text color
                 ),
                 child: const Text(
                   'Sign Up',
@@ -75,7 +139,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               RichText(
                 text: TextSpan(
                   text: 'Already have an account? ',
-                  style: const TextStyle(fontSize: 13, color: Colors.black, fontFamily: 'Poppins',),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black,
+                    fontFamily: 'Poppins',
+                  ),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Log in here',
@@ -91,15 +159,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // Perform navigation to the login screen
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
                           );
                         },
                     ),
                   ],
                 ),
-              )
-
-
+              ),
             ],
           ),
         ),
@@ -107,7 +174,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  TextFormField _textBox(String label, IconData icon, TextEditingController? controller, {Function(String)? onChange}) {
+  TextFormField _textBox(
+      String label,
+      IconData icon,
+      TextEditingController?
+      controller,
+      {Function(String)? onChange}) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -124,10 +196,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.lightGreen), // Active border color
+          borderSide:
+              BorderSide(color: Colors.lightGreen), // Active border color
         ),
-        suffixIcon: label == 'Password' || label == 'Confirm Password'
-            ? IconButton(
+      ),
+      cursorColor: Colors.lightGreen, // Cursor color
+      onChanged: (value) {
+        onChange?.call(value); // Call the provided onChange callback
+      },
+    );
+  }
+
+  TextFormField _textBoxPassword(
+      String label,
+      IconData icon,
+      TextEditingController?
+      controller,
+      {Function(String)? onChange}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          color: Colors.lightGreen, // Active hint label color
+        ),
+        prefixIcon: Icon(
+          icon,
+          color: Colors.lightGreen, // Active icon color
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide:
+          BorderSide(color: Colors.lightGreen), // Active border color
+        ),
+        suffixIcon: IconButton(
           icon: Icon(
             _obscureText ? Icons.visibility : Icons.visibility_off,
             color: Colors.lightGreen,
@@ -138,10 +243,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             });
           },
         )
-            : null,
       ),
       cursorColor: Colors.lightGreen, // Cursor color
-      onChanged: onChange,
+      onChanged: (value) {
+        onChange?.call(value); // Call the provided onChange callback
+      },
       obscureText: _obscureText,
     );
   }
@@ -158,7 +264,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Navigator.pop(context);
         },
       ),
-      title:  const Row(
+      title: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(

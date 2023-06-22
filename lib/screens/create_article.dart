@@ -75,7 +75,7 @@ class _CreateArticleScreenState extends State<CreateArticleScreen> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.lightGreen,
+                backgroundColor: Colors.lightGreen,
                 textStyle: const TextStyle(fontFamily: 'Poppins'),
               ),
               child: const Text('Publish'),
